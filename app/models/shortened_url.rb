@@ -9,15 +9,6 @@ class ShortenedUrl < ApplicationRecord
         foreign_key: :user_id,
         primary_key: :id
     )
-
-    
-    
-    def shorten_url(submitter, long_url)
-        shortened_url = create!(long_url: long_url, short_url: random_code(long_url))
-        submitter.shortened_urls << shortened_url
-    end
-    
-    private
     
     
     def random_code(long_url)
