@@ -41,4 +41,8 @@ class ShortenedUrl < ApplicationRecord
     def num_uniques
         visitors.select(:visitor_id).distinct.count
     end
+
+    def num_recent_uniques
+        visits.where("created_at < ?", 10.minutes.ago)
+    end
 end
