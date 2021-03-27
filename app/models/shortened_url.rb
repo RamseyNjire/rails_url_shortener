@@ -19,6 +19,13 @@ class ShortenedUrl < ApplicationRecord
 
     has_many :visitors, through: :visits, source: :visitor
 
+    def self.random_code
+        begin
+            short_url = SecureRandom.urlsafe_base64
+        end while exists?(short_url: short_url)
+        short_url
+    end
+
     def self.create_shortened_url!(user, long_url)
         ShortenedUrl.create!(
         user_id: user.id,
@@ -26,11 +33,12 @@ class ShortenedUrl < ApplicationRecord
         short_url: ShortenedUrl.random_code
         )
     end
-    
-    def self.random_code
-        begin
-            short_url = SecureRandom.urlsafe_base64
-        end while exists?(short_url: short_url)
-        short_url
+
+    def num_clicks
+        visits.count
+    end
+
+    def num_uniques
+        visitors.select(:visitor_id).distinct.count
     end
 end
