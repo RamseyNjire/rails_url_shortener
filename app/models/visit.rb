@@ -14,4 +14,8 @@ class Visit < ApplicationRecord
         primary_key: :id
     )
 
+    def self.record_visit!(visitor, visited_url)
+        Visit.create(visitor: visitor, visited_url: visited_url)
+    end
+
 end
