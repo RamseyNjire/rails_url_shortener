@@ -17,7 +17,12 @@ class ShortenedUrl < ApplicationRecord
         primary_key: :id
     )
 
-    has_many :visitors, through: :visits, source: :visitor
+    has_many(
+        -> { distinct }
+        :visitors,
+        through: :visits,
+        source: :visitor
+    )
 
     def self.random_code
         begin
@@ -39,10 +44,10 @@ class ShortenedUrl < ApplicationRecord
     end
 
     def num_uniques
-        visitors.select(:visitor_id).distinct.count
+        visitors.count
     end
 
     def num_recent_uniques
-        visits.where("created_at < ?", 10.minutes.ago)
+        visits.where("created_at < ?", 10.minutes.ago).count
     end
 end
