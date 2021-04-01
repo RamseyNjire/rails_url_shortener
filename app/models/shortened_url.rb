@@ -18,8 +18,8 @@ class ShortenedUrl < ApplicationRecord
     )
 
     has_many(
-        -> { distinct }
         :visitors,
+        -> { distinct },
         through: :visits,
         source: :visitor
     )
@@ -48,6 +48,6 @@ class ShortenedUrl < ApplicationRecord
     end
 
     def num_recent_uniques
-        visits.where("created_at < ?", 10.minutes.ago).count
+        visits.where("created_at > ?", 10.minutes.ago).count
     end
 end
