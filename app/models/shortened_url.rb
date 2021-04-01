@@ -24,6 +24,20 @@ class ShortenedUrl < ApplicationRecord
         source: :visitor
     )
 
+    has_many(
+        :taggings,
+        class_name: 'Tagging',
+        foreign_key: :short_url_id,
+        primary_key: :id
+    )
+
+    has_many(
+        :tag_topics,
+        -> { distinct },
+        through: :taggings,
+        source: :tag_topic
+    )
+
     def self.random_code
         begin
             short_url = SecureRandom.urlsafe_base64
