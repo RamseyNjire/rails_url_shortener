@@ -67,6 +67,23 @@ class ShortenedUrl < ApplicationRecord
         visits.where("created_at > ?", 10.minutes.ago).count
     end
 
+    def self.prune(limit)
+    ShortenedUrl
+      .joins(:submitter)
+      .joins('LEFT JOIN visits ON visits.shortened_url_id = shortened_urls.id')
+      .where("(shortened_urls.id IN (
+        SELECT shortened_urls.id
+        FROM shortened_urls
+        JOIN visits
+        ON visits.shortened_url_id = shortened_urls.id
+        GROUP BY shortened_urls.id
+        HAVING MAX(visits.created_at) < \'#{limit.minute.ago}\'
+      ) OR (
+        visits.id IS NULL and shortened_urls.created_at < \'#{limit.minutes.ago}\'
+      )) AND users.premium = \'f\'")
+      .destroy_all
+    end
+
     private
     def no_spamming
         last_minute = ShortenedUrl
@@ -77,7 +94,7 @@ class ShortenedUrl < ApplicationRecord
         errors[:maximum_exceeded] << 'of five short urls per minute' if last_minute >= 5
     end
 
-    def nonpremium_max
+    def non_premium_max
         return if User.find(self.user_id).premium
 
         number_of_urls =
@@ -89,4 +106,6 @@ class ShortenedUrl < ApplicationRecord
         errors[:Only] << 'premium members can create more than 5 short urls'
         end
     end
+
+
 end
