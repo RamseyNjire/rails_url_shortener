@@ -1,7 +1,42 @@
 # URL Shortener
 
-This project is to help me know how to work with Active Record. It's going to have a CLI. You give it a URL of arbitrary length and it shortens it. It can also track clicks on the URL. Should be fun!
+This project focuses on working with Active Record. It runs via a CLI, and shortens any URL you feed it of arbitrary length. You can then share the shortened URL and the app will track clicks made on it.
 
-Note, it's not production-ready. It's a toy app. 
+In this project, I
 
-To run the app, clone, cd into cloned directory, and type `rails runner bin/cli` in the command line.
+- Work extensively with the Rails gem, Active Record.
+- Users can be created, have many URLs, and shorten each of them.
+- The shortened URLs can then be shortened and have a tag for the topic they cover.
+- Shortened URLs can also track the clicks they receive.
+
+## Built With
+
+- Ruby 2.5.0
+- Ruby on Rails 5.2.6
+
+## Getting Started
+- Clone the project to your local machine;
+- `cd` into the project directory;
+- Run `bundle install` to install the necessary gems;
+- Run `rails db:create`;
+- Run `rails db:migrate`;
+- Run `rails runner bin/cli` to launch the program in a terminal
+## My Social Handles
+
+- Github: [@RamseyNjire](https://github.com/RamseyNjire)
+- Twitter: [@untakenramram](https://twitter.com/untakenramram)
+- Linkedin: [Ramsey Njire](https://www.linkedin.com/in/ramsey-njire-51984931/)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!
+
+Feel free to check the [issues page](issues/).
+
+## Show your support
+
+Give a ⭐️ if you like this project!
+
+## 📝 License
+
+This project is [MIT](lic.url) licensed.
